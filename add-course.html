@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Course</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="app.js" defer></script>
+</head>
+<body class="font-sans bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-blue-900 p-4 flex justify-between items-center text-white">
+        <div class="text-lg font-bold">CourseHub</div>
+        <a href="courses.html" class="bg-green-500 px-4 py-2 rounded-md">Back to Courses</a>
+    </nav>
+
+    <!-- Add Course Form -->
+    <section class="p-6 bg-white shadow-md my-6 mx-12 rounded-md">
+        <h2 class="text-2xl font-semibold text-blue-900 mb-4">Add a New Course</h2>
+        <form id="addCourseForm">
+            <div class="mb-4">
+                <label for="name" class="block text-lg font-medium">Course Name</label>
+                <input type="text" id="name" class="p-3 w-full border rounded-md" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="description" class="block text-lg font-medium">Course Description</label>
+                <textarea id="description" class="p-3 w-full border rounded-md" rows="4" required></textarea>
+            </div>
+
+            <div class="mb-4">
+                <label for="price" class="block text-lg font-medium">Course Price ($)</label>
+                <input type="number" id="price" class="p-3 w-full border rounded-md" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="category" class="block text-lg font-medium">Course Category</label>
+                <select id="category" class="p-3 w-full border rounded-md" required>
+                    <option value="">Select a Category</option>
+                    <option value="Technology">Technology</option>
+                    <option value="Business">Business</option>
+                    <option value="Design">Design</option>
+                    <option value="Marketing">Marketing</option>
+                    <option value="Health">Health</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="prerequisites" class="block text-lg font-medium">Prerequisites</label>
+                <textarea id="prerequisites" class="p-3 w-full border rounded-md" rows="3" placeholder="Enter prerequisites (comma-separated)" required></textarea>
+            </div>
+
+            <button type="submit" class="bg-blue-900 text-white px-6 py-3 rounded-md">Add Course</button>
+        </form>
+    </section>
+</body>
+</html>

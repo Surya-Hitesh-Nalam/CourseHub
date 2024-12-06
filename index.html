@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Courses</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="app.js" defer></script>
+    <style>
+        /* Scrolling animation for the carousel */
+        @keyframes scroll-carousel {
+            0% {
+                transform: translateX(100%);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+        
+        .carousel {
+            display: flex;
+            animation: scroll-carousel 20s linear infinite;
+        }
+        
+        .carousel img {
+            width: 150px;
+            height: 70px;
+            margin-right: 30px;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-100">
+    <!-- Navbar -->
+    <nav class="bg-blue-900 flex justify-between items-center text-white p-6">
+        <div class="flex items-center space-x-4">
+            <img src="assets/logo.webp" alt="Logo" class="w-10 h-10">
+            <div class="text-lg font-bold">CourseHub</div>
+        </div>
+        <div class="flex space-x-6">
+            <a href="courses.html" class="text-white px-4 py-2 hover:bg-green-500 hover:text-white rounded-md transition duration-300">Courses</a>
+            <a href="add-course.html" class="text-white px-4 py-2 hover:bg-yellow-500 hover:text-white rounded-md transition duration-300">Add Course</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="flex flex-col md:flex-row justify-between items-center p-6 md:p-12">
+        <div class="w-full md:w-1/2 mb-6 md:mb-0">
+            <h1 class="text-4xl md:text-5xl font-bold text-blue-900 mb-4">Find Your Dream Course</h1>
+            <p class="text-lg md:text-xl text-gray-600 mb-6">Browse our diverse selection of online courses and start learning today!</p>
+            <div class="space-x-4">
+                <a href="courses.html" class="bg-blue-500 text-white px-6 py-2 rounded-md">Browse Courses</a>
+                <a href="add-course.html" class="bg-yellow-500 text-white px-6 py-2 rounded-md">Add Course</a>
+            </div>
+        </div>
+        <div class="w-full md:w-1/2">
+            <img src="assets/courses.webp" alt="Course Image" class="w-full rounded-lg shadow-lg bg-white">
+        </div>
+    </section>
+
+    <!-- Carousel Section for Sponsored Companies -->
+    <section class="bg-gray-50 py-6">
+        <h2 class="text-center text-2xl font-semibold mb-4">Sponsored By</h2>
+        <div class="overflow-hidden">
+            <div class="carousel">
+                <img src="assets/amazon.png" alt="Company 1">
+                <img src="assets/apple.jpg" alt="Company 2">
+                <img src="assets/atlassian.png" alt="Company 3">
+                <img src="assets/google.webp" alt="Company 4">
+                <img src="assets/meta.png" alt="Company 5">
+                <img src="assets/microsoft.png" alt="Company 6">
+                <img src="assets/netflix.png" alt="Company 7">
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Me Form -->
+    <section class="p-6 md:p-12 bg-white shadow-xl rounded-lg max-w-4xl mx-auto mt-10">
+        <h2 class="text-center text-2xl font-semibold mb-4">Contact Us</h2>
+        <form class="space-y-6" action="https://api.web3forms.com/submit" method="POST">
+            <input type="hidden" name="access_key" value="026d2e4d-7e71-4f1f-954d-a80d2162f225">
+            <div>
+                <label for="name" class="block text-lg font-medium text-gray-700">Name</label>
+                <input type="text" id="name" name="name" class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+                <label for="email" class="block text-lg font-medium text-gray-700">Email</label>
+                <input type="email" id="email" name="email" class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+            <div>
+                <label for="message" class="block text-lg font-medium text-gray-700">Message</label>
+                <textarea id="message" name="message" rows="4" class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+            </div>
+            <button type="submit" class="w-full py-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300">Submit</button>
+        </form>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="bg-blue-900 text-white p-4 text-center">
+        <p>&copy; 2024 CourseHub. All rights reserved.</p>
+    </footer>
+</body>
+</html>

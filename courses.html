@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Courses</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="app.js" defer></script>
+</head>
+<body class="font-sans bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="bg-blue-900 p-4 flex justify-between items-center text-white">
+        <div class="text-lg font-bold">CourseHub</div>
+        <a href="add-course.html" class="bg-green-500 px-4 py-2 rounded-md">Add Course</a>
+    </nav>
+   <!-- Courses Search & Filter -->
+<section class="p-6 bg-white shadow-md my-6 mx-12 rounded-md">
+    <div class="mb-4">
+        <input id="searchInput" type="text" placeholder="Search for courses..." class="p-3 rounded-md border border-gray-300 w-full mb-4">
+    </div>
+    
+    <!-- Filters -->
+    <div class="flex flex-col sm:flex-row gap-4">
+        <!-- Filter by Price -->
+        <select id="priceFilterSelect" class="p-3 rounded-md border border-gray-300 flex-grow">
+            <option value="">Filter by Price</option>
+            <option value="low-to-high">Low to High</option>
+            <option value="high-to-low">High to Low</option>
+        </select>
+
+        <!-- Filter by Category -->
+        <select id="categoryFilterSelect" class="p-3 rounded-md border border-gray-300 flex-grow">
+            <option value="">Filter by Category</option>
+            <option value="Technology">Technology</option>
+            <option value="Business">Business</option>
+            <option value="Design">Design</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Health">Health</option>
+        </select>
+    </div>
+
+    <!-- Courses Grid -->
+    <div id="coursesContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6"></div>
+</section>
+
+</body>
+</html>
