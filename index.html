@@ -27,6 +27,15 @@
             height: 70px;
             margin-right: 30px;
         }
+
+        /* Accordion styling */
+        .accordion-button {
+            transition: background-color 0.3s ease;
+        }
+        
+        .accordion-button:hover {
+            background-color: #1D4ED8;
+        }
     </style>
 </head>
 <body class="font-sans bg-gray-100">
@@ -73,6 +82,37 @@
         </div>
     </section>
 
+    <!-- Accordion Section for Website Details -->
+    <section class="p-6 md:p-12 bg-white shadow-xl rounded-lg max-w-4xl mx-auto mt-10">
+        <h2 class="text-center text-2xl font-semibold mb-4">Website Details</h2>
+        <div class="accordion">
+            <div class="accordion-item">
+                <button class="accordion-button w-full text-left p-4 border-b-2 border-gray-300 font-semibold text-lg focus:outline-none">
+                    About CourseHub
+                </button>
+                <div class="accordion-content px-4 py-2 text-gray-600 hidden">
+                    <p>CourseHub is an online platform offering a wide range of courses to help you develop your skills. Whether you are looking for programming, design, marketing, or any other field, we have something for everyone!</p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-button w-full text-left p-4 border-b-2 border-gray-300 font-semibold text-lg focus:outline-none">
+                    Why Choose Us?
+                </button>
+                <div class="accordion-content px-4 py-2 text-gray-600 hidden">
+                    <p>We offer high-quality courses, flexible learning schedules, and access to experienced instructors. Plus, with our user-friendly platform, learning becomes easy and enjoyable!</p>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <button class="accordion-button w-full text-left p-4 border-b-2 border-gray-300 font-semibold text-lg focus:outline-none">
+                    Get Started Today
+                </button>
+                <div class="accordion-content px-4 py-2 text-gray-600 hidden">
+                    <p>Sign up today and start exploring our vast collection of courses. It's easy, free to sign up, and you can start learning right away!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Contact Me Form -->
     <section class="p-6 md:p-12 bg-white shadow-xl rounded-lg max-w-4xl mx-auto mt-10">
         <h2 class="text-center text-2xl font-semibold mb-4">Contact Us</h2>
@@ -98,5 +138,21 @@
     <footer class="bg-blue-900 text-white p-4 text-center">
         <p>&copy; 2024 CourseHub. All rights reserved.</p>
     </footer>
+
+    <script>
+        document.querySelectorAll('.accordion-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const isVisible = content.classList.contains('hidden');
+                
+                // Toggle visibility of the content
+                if (isVisible) {
+                    content.classList.remove('hidden');
+                } else {
+                    content.classList.add('hidden');
+                }
+            });
+        });
+    </script>
 </body>
 </html>

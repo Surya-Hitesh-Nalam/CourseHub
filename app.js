@@ -3,12 +3,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('searchInput');
     const filterCategorySelect = document.getElementById('filterCategory');
     const filterPriceSelect = document.getElementById('filterSelect');
-    let courses = JSON.parse(localStorage.getItem('courses')) || [];
+    const addCourseForm = document.getElementById('addCourseForm');
 
+    // Load courses from localStorage or initialize as empty
+    let courses = JSON.parse(localStorage.getItem('courses')) || [];
     courses = courses.map(course => ({
         ...course,
         prerequisites: Array.isArray(course.prerequisites) ? course.prerequisites : [],
     }));
+
+    // Save courses back to localStorage
     localStorage.setItem('courses', JSON.stringify(courses));
 
     function displayCourses(coursesList) {
@@ -20,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         coursesList.forEach((course, index) => {
+            const isRegistered = JSON.parse(localStorage.getItem('registeredCourses')) || {};
             const courseCard = document.createElement('div');
             courseCard.classList.add(
                 'bg-white',
@@ -38,44 +43,92 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p class="text-sm text-gray-600"><span class="font-medium">Prerequisites:</span> ${
                     course.prerequisites.slice(0, 3).join(', ')
                 }${course.prerequisites.length > 3 ? '...' : ''}</p>
-                <button class="bg-red-500 text-white px-4 py-2 rounded-md mt-4" data-index="${index}">Delete</button>
+                <button 
+                    class="bg-blue-500 text-white px-4 py-2 rounded-md mt-4 register-btn ${isRegistered[course.name] ? 'hidden' : ''}" 
+                    data-index="${index}">Register Now</button>
+                <div class="registered-options ${isRegistered[course.name] ? '' : 'hidden'} flex gap-4 mt-4">
+                    <button class="bg-gray-500 text-white px-4 py-2 rounded-md" disabled>Registered</button>
+                    <button 
+                        class="bg-green-500 text-white px-4 py-2 rounded-md view-btn" 
+                        data-index="${index}">View Course</button>
+                </div>
+                <button class="bg-red-500 text-white px-4 py-2 rounded-md mt-4 delete-btn" data-index="${index}">Delete</button>
             `;
             coursesContainer.appendChild(courseCard);
         });
 
-        const deleteButtons = document.querySelectorAll('button');
+        attachEventListeners();
+    }
+
+    function attachEventListeners() {
+        const registerButtons = document.querySelectorAll('.register-btn');
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+        const viewButtons = document.querySelectorAll('.view-btn');
+
+        registerButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const index = e.target.getAttribute('data-index');
+                registerForCourse(index);
+            });
+        });
+
         deleteButtons.forEach(button => {
             button.addEventListener('click', (e) => {
                 const index = e.target.getAttribute('data-index');
-                courses.splice(index, 1);
-                localStorage.setItem('courses', JSON.stringify(courses));
-                displayCourses(courses);
+                deleteCourse(index);
+            });
+        });
+
+        viewButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const index = e.target.getAttribute('data-index');
+                viewCourse(index);
             });
         });
     }
 
+    function registerForCourse(index) {
+        const selectedCourse = courses[index];
+        const registeredCourses = JSON.parse(localStorage.getItem('registeredCourses')) || {};
+        registeredCourses[selectedCourse.name] = true;
+        localStorage.setItem('registeredCourses', JSON.stringify(registeredCourses));
+        alert(`You have successfully registered for ${selectedCourse.name}!`);
+        displayCourses(courses);
+    }
+
+    function deleteCourse(index) {
+        courses.splice(index, 1);
+        localStorage.setItem('courses', JSON.stringify(courses));
+        alert('Course deleted successfully!');
+        displayCourses(courses);
+    }
+
+    function viewCourse(index) {
+        const selectedCourse = courses[index];
+        localStorage.setItem('selectedCourse', JSON.stringify(selectedCourse));
+        window.location.href = 'course-detail.html';
+    }
+
     function filterCourses() {
         let filteredCourses = [...courses];
-
         const searchTerm = searchInput.value.toLowerCase();
+        const selectedCategory = filterCategorySelect.value;
+        const filterValue = filterPriceSelect.value;
+
         if (searchTerm) {
             filteredCourses = filteredCourses.filter(course =>
                 course.name.toLowerCase().includes(searchTerm) ||
                 course.description.toLowerCase().includes(searchTerm) ||
-                course.prerequisites.some(prerequisite =>
-                    prerequisite.toLowerCase().includes(searchTerm)
+                course.prerequisites.some(prereq =>
+                    prereq.toLowerCase().includes(searchTerm)
                 )
             );
         }
 
-        const selectedCategory = filterCategorySelect.value;
         if (selectedCategory) {
-            filteredCourses = filteredCourses.filter(
-                course => course.category === selectedCategory
-            );
+            filteredCourses = filteredCourses.filter(course => course.category === selectedCategory);
         }
 
-        const filterValue = filterPriceSelect.value;
         if (filterValue === 'low-to-high') {
             filteredCourses.sort((a, b) => a.price - b.price);
         } else if (filterValue === 'high-to-low') {
@@ -91,43 +144,30 @@ document.addEventListener('DOMContentLoaded', () => {
         filterPriceSelect.addEventListener('change', filterCourses);
     }
 
-    if (coursesContainer) {
-        displayCourses(courses);
-    }
-
-    const addCourseForm = document.getElementById('addCourseForm');
     if (addCourseForm) {
         addCourseForm.addEventListener('submit', (event) => {
             event.preventDefault();
 
             const name = document.getElementById('name').value.trim();
             const description = document.getElementById('description').value.trim();
-            const price = document.getElementById('price').value.trim();
+            const price = parseFloat(document.getElementById('price').value.trim());
             const category = document.getElementById('category').value.trim();
-            const prerequisites = document
-                .getElementById('prerequisites')
-                .value.split(',')
-                .map(prereq => prereq.trim());
+            const prerequisites = document.getElementById('prerequisites').value.split(',').map(prereq => prereq.trim());
 
-            if (!name || !description || !price || !category || prerequisites.length === 0) {
+            if (!name || !description || isNaN(price) || !category || prerequisites.length === 0) {
                 alert('Please fill all the fields.');
                 return;
             }
 
-            const newCourse = {
-                name,
-                description,
-                price: parseFloat(price),
-                category,
-                prerequisites
-            };
-
+            const newCourse = { name, description, price, category, prerequisites };
             courses.push(newCourse);
             localStorage.setItem('courses', JSON.stringify(courses));
-
             alert('Course added successfully!');
             addCourseForm.reset();
-            window.location.href = 'courses.html';
+            displayCourses(courses);
         });
     }
+
+    // Initial rendering
+    displayCourses(courses);
 });
