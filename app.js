@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const filterCategorySelect = document.getElementById('filterCategory');
     const filterPriceSelect = document.getElementById('filterSelect');
     const addCourseForm = document.getElementById('addCourseForm');
-
+    
     // Load courses from localStorage or initialize as empty
     let courses = JSON.parse(localStorage.getItem('courses')) || [];
     courses = courses.map(course => ({
@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Save courses back to localStorage
     localStorage.setItem('courses', JSON.stringify(courses));
 
+    // Handle course list display
     function displayCourses(coursesList) {
         coursesContainer.innerHTML = '';
 
@@ -60,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         attachEventListeners();
     }
 
+    // Attach event listeners to buttons (Register, Delete, View)
     function attachEventListeners() {
         const registerButtons = document.querySelectorAll('.register-btn');
         const deleteButtons = document.querySelectorAll('.delete-btn');
@@ -87,6 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Register a user for a course
     function registerForCourse(index) {
         const selectedCourse = courses[index];
         const registeredCourses = JSON.parse(localStorage.getItem('registeredCourses')) || {};
@@ -96,6 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
         displayCourses(courses);
     }
 
+    // Delete a course
     function deleteCourse(index) {
         courses.splice(index, 1);
         localStorage.setItem('courses', JSON.stringify(courses));
@@ -103,12 +107,14 @@ document.addEventListener('DOMContentLoaded', () => {
         displayCourses(courses);
     }
 
+    // View a course (store it in localStorage and redirect)
     function viewCourse(index) {
         const selectedCourse = courses[index];
         localStorage.setItem('selectedCourse', JSON.stringify(selectedCourse));
-        window.location.href = 'course-detail.html';
+        window.location.href = 'course-detail.html'; // Redirect to course details page
     }
 
+    // Filter courses based on search, category, and price
     function filterCourses() {
         let filteredCourses = [...courses];
         const searchTerm = searchInput.value.toLowerCase();
@@ -138,12 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
         displayCourses(filteredCourses);
     }
 
-    if (searchInput && filterCategorySelect && filterPriceSelect) {
-        searchInput.addEventListener('input', filterCourses);
-        filterCategorySelect.addEventListener('change', filterCourses);
-        filterPriceSelect.addEventListener('change', filterCourses);
-    }
-
+    // Add a new course
     if (addCourseForm) {
         addCourseForm.addEventListener('submit', (event) => {
             event.preventDefault();
@@ -168,6 +169,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Initial rendering
-    displayCourses(courses);
+    // Handle course details page rendering
+    if (window.location.pathname.includes('course-detail.html')) {
+        const selectedCourse = JSON.parse(localStorage.getItem('selectedCourse'));
+
+        if (selectedCourse) {
+            document.getElementById('courseDetails').innerHTML = `
+                <h1 class="text-3xl font-bold text-blue-900 mb-4">${selectedCourse.name}</h1>
+                <p class="text-lg text-gray-700 mb-4">${selectedCourse.description}</p>
+                <p class="text-2xl font-semibold text-green-600 mb-4">$${selectedCourse.price}</p>
+                <p class="text-sm text-gray-600 mb-4">
+                    <span class="font-medium">Category:</span> ${selectedCourse.category}
+                </p>
+                <p class="text-sm text-gray-600">
+                    <span class="font-medium">Prerequisites:</span> ${selectedCourse.prerequisites.join(', ')}
+                </p>
+            `;
+        } else {
+            document.getElementById('courseDetails').innerHTML = `<p class="text-gray-500 text-center">Course not found.</p>`;
+        }
+    }
+
+    // Initial rendering of course list
+    if (!window.location.pathname.includes('course-detail.html')) {
+        displayCourses(courses);
+    }
+
+    // Event listeners for search and filters
+    if (searchInput && filterCategorySelect && filterPriceSelect) {
+        searchInput.addEventListener('input', filterCourses);
+        filterCategorySelect.addEventListener('change', filterCourses);
+        filterPriceSelect.addEventListener('change', filterCourses);
+    }
 });

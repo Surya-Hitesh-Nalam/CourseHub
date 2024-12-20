@@ -4,31 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Course Details</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="course-detail.js" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script defer src="app.js"></script>
 </head>
-<body class="font-sans bg-gray-100">
+<body class="bg-gray-100">
 
-    <!-- Navbar -->
-    <nav class="bg-blue-900 p-4 flex justify-between items-center text-white">
-        <div class="text-lg font-bold">CourseHub</div>
-        <a href="courses.html" class="bg-gray-500 px-4 py-2 rounded-md">Back to Courses</a>
-    </nav>
-
-    <!-- Course Details -->
-    <section class="p-6 bg-white shadow-md my-6 mx-12 rounded-md">
-        <div id="courseDetails" class="text-center">
-            <h1 class="text-3xl font-bold text-blue-900 mb-4">Course Name</h1>
-            <p class="text-lg text-gray-700 mb-4">Course Description</p>
-            <p class="text-2xl font-semibold text-green-600 mb-4">$0.00</p>
-            <p class="text-sm text-gray-600 mb-4">
-                <span class="font-medium">Category:</span> Category Name
-            </p>
-            <p class="text-sm text-gray-600">
-                <span class="font-medium">Prerequisites:</span> Prerequisites List
-            </p>
+    <div class="container mx-auto p-6">
+        <h2 class="text-3xl font-bold text-blue-900 mb-6">Course Details</h2>
+        
+        <div id="courseDetails" class="bg-white shadow-md rounded-md p-6">
+            <!-- Course details will be dynamically inserted here -->
+            <p class="text-center text-gray-500">Loading course details...</p>
         </div>
-    </section>
+
+        <div class="mt-6">
+            <a href="index.html" class="text-blue-600">Back to Course List</a>
+        </div>
+    </div>
 
 </body>
 </html>
